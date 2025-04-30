@@ -17,31 +17,19 @@ class HomePage extends StatelessWidget {
           children: [
             menuCard(
               context,
-              icon: Icons.dashboard,
-              label: 'Dashboard',
-              color: Colors.blue,
-              routeName: '/dashboard',
+              Icons.dashboard,
+              'Dashboard',
+              '/dashboard',
+              Colors.blue,
             ),
+            menuCard(context, Icons.add, 'Add', '/add', Colors.red),
+            menuCard(context, Icons.update, 'Update', '/update', Colors.green),
             menuCard(
               context,
-              icon: Icons.add,
-              label: 'Add',
-              color: Colors.red,
-              routeName: '/add',
-            ),
-            menuCard(
-              context,
-              icon: Icons.update,
-              label: 'Update',
-              color: Colors.green,
-              routeName: '/update',
-            ),
-            menuCard(
-              context,
-              icon: Icons.logout,
-              label: 'Logout',
-              color: Colors.grey,
-              routeName: '/',
+              Icons.logout,
+              'Logout',
+              '/',
+              Colors.grey,
               isLogout: true,
             ),
           ],
@@ -51,11 +39,11 @@ class HomePage extends StatelessWidget {
   }
 
   Widget menuCard(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-    required Color color,
-    required String routeName,
+    BuildContext context,
+    IconData icon,
+    String label,
+    String routeName,
+    Color color, {
     bool isLogout = false,
   }) {
     return GestureDetector(
@@ -72,7 +60,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 36, color: color), // <-- icon dikecilkan jadi 36
+              Icon(icon, size: 36, color: color),
               SizedBox(height: 8),
               Text(
                 label,

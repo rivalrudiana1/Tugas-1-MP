@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'data_store.dart';
 
 class AddPage extends StatelessWidget {
   final TextEditingController fakturController = TextEditingController();
@@ -10,14 +11,14 @@ class AddPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Tambah Penjualan')),
+      appBar: AppBar(title: Text('Tambah Penjualan'), leading: Icon(Icons.add)),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: ListView(
           children: [
             TextField(
               controller: fakturController,
-              decoration: InputDecoration(labelText: 'No Faktur Penjualan'),
+              decoration: InputDecoration(labelText: 'No Faktur'),
             ),
             TextField(
               controller: tanggalController,
@@ -38,16 +39,21 @@ class AddPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Data belum disimpan, hanya contoh tampilan
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Data berhasil ditambahkan (simulasi)'),
+                DataStore.penjualanList.add(
+                  Penjualan(
+                    faktur: fakturController.text,
+                    tanggal: tanggalController.text,
+                    customer: customerController.text,
+                    jumlah: jumlahController.text,
+                    total: totalController.text,
                   ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Data berhasil ditambahkan')),
                 );
               },
               child: Text('Submit'),
             ),
-            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

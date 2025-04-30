@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
+import 'data_store.dart';
 
 class UpdatePage extends StatelessWidget {
-  final TextEditingController fakturController = TextEditingController(
-    text: "001",
-  );
-  final TextEditingController tanggalController = TextEditingController(
-    text: "2025-04-30",
-  );
-  final TextEditingController customerController = TextEditingController(
-    text: "Andi",
-  );
-  final TextEditingController jumlahController = TextEditingController(
-    text: "5",
-  );
-  final TextEditingController totalController = TextEditingController(
-    text: "500000",
-  );
+  final TextEditingController fakturController = TextEditingController();
+  final TextEditingController customerController = TextEditingController();
+  final TextEditingController jumlahController = TextEditingController();
+  final TextEditingController totalController = TextEditingController();
+  final TextEditingController tanggalController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Update Penjualan')),
+      appBar: AppBar(
+        title: Text('Update Penjualan'),
+        leading: Icon(Icons.update),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: ListView(
           children: [
             TextField(
               controller: fakturController,
-              decoration: InputDecoration(labelText: 'No Faktur Penjualan'),
+              decoration: InputDecoration(labelText: 'No Faktur'),
             ),
             TextField(
               controller: tanggalController,
@@ -48,16 +42,22 @@ class UpdatePage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Data belum disimpan, hanya contoh tampilan
+                final fakturToUpdate = fakturController.text;
+                for (var penjualan in DataStore.penjualanList) {
+                  if (penjualan.faktur == fakturToUpdate) {
+                    penjualan.tanggal = tanggalController.text;
+                    penjualan.customer = customerController.text;
+                    penjualan.jumlah = jumlahController.text;
+                    penjualan.total = totalController.text;
+                    break;
+                  }
+                }
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Data berhasil diperbarui (simulasi)'),
-                  ),
+                  SnackBar(content: Text('Data berhasil diupdate')),
                 );
               },
               child: Text('Update'),
             ),
-            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);

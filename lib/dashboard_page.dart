@@ -1,60 +1,43 @@
 import 'package:flutter/material.dart';
+import 'data_store.dart';
 
-class DashboardPage extends StatelessWidget {
-  final List<Map<String, String>> dataPenjualan = [
-    {
-      "faktur": "001",
-      "tanggal": "2025-04-30",
-      "customer": "Andi",
-      "jumlah": "5",
-      "total": "500000",
-    },
-    {
-      "faktur": "002",
-      "tanggal": "2025-04-29",
-      "customer": "Budi",
-      "jumlah": "2",
-      "total": "200000",
-    },
-    {
-      "faktur": "003",
-      "tanggal": "2025-04-28",
-      "customer": "Citra",
-      "jumlah": "3",
-      "total": "300000",
-    },
-  ];
+class DashboardPage extends StatefulWidget {
+  @override
+  _DashboardPageState createState() => _DashboardPageState();
+}
 
+class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Dashboard Penjualan')),
+      appBar: AppBar(
+        title: Text('Dashboard Penjualan'),
+        leading: Icon(Icons.dashboard),
+      ),
       body: Column(
         children: [
-          DataTable(
-            columns: const [
-              DataColumn(label: Text('No Faktur')),
-              DataColumn(label: Text('Tanggal')),
-              DataColumn(label: Text('Customer')),
-              DataColumn(label: Text('Jumlah')),
-              DataColumn(label: Text('Total')),
-            ],
-            rows:
-                dataPenjualan
-                    .map(
-                      (item) => DataRow(
-                        cells: [
-                          DataCell(Text(item['faktur']!)),
-                          DataCell(Text(item['tanggal']!)),
-                          DataCell(Text(item['customer']!)),
-                          DataCell(Text(item['jumlah']!)),
-                          DataCell(Text(item['total']!)),
-                        ],
-                      ),
-                    )
-                    .toList(),
+          Expanded(
+            child: ListView.builder(
+              itemCount: DataStore.penjualanList.length,
+              itemBuilder: (context, index) {
+                final penjualan = DataStore.penjualanList[index];
+                return ListTile(
+                  title: Text('${penjualan.faktur} - ${penjualan.customer}'),
+                  subtitle: Text(
+                    'Tanggal: ${penjualan.tanggal}\nJumlah: ${penjualan.jumlah} | Total: ${penjualan.total}',
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      setState(() {
+                        DataStore.penjualanList.removeAt(index);
+                      });
+                    },
+                  ),
+                );
+              },
+            ),
           ),
-          SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);

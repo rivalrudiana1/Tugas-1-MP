@@ -25,7 +25,15 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/home');
+                String username = usernameController.text;
+                String password = passwordController.text;
+                if (username == 'admin' && password == 'admin123') {
+                  Navigator.pushReplacementNamed(context, '/home');
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Username atau Password salah!')),
+                  );
+                }
               },
               child: Text('Login'),
             ),
